@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Lucu untuk Pacar</title>
+    <style>
+        canvas {
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas" width="400" height="400"></canvas>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let x = canvas.width / 2;
+        let y = canvas.height / 2;
+        let dx = 2;
+        let dy = -2;
+
+        function drawCharacter() {
+            ctx.beginPath();
+            ctx.arc(x, y, 20, 0, Math.PI * 2);
+            ctx.fillStyle = '#FF0000';
+            ctx.fill();
+            ctx.closePath();
+        }
+
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function updateGameArea() {
+            clearCanvas();
+            drawCharacter();
+
+            x += dx;
+            y += dy;
+
+            // Bounce saat mencapai batas canvas
+            if (x + dx > canvas.width - 20 || x + dx < 20) {
+                dx = -dx;
+            }
+
+            if (y + dy > canvas.height - 20 || y + dy < 20) {
+                dy = -dy;
+            }
+
+            requestAnimationFrame(updateGameArea);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            // Contoh kontrol menggunakan tombol panah
+            if (e.key === 'ArrowRight' && x < canvas.width - 20) {
+                x += 10;
+            } else if (e.key === 'ArrowLeft' && x > 20) {
+                x -= 10;
+            } else if (e.key === 'ArrowDown' && y < canvas.height - 20) {
+                y += 10;
+            } else if (e.key === 'ArrowUp' && y > 20) {
+                y -= 10;
+            }
+        });
+
+        updateGameArea();
+    </script>
+</body>
+</html>
